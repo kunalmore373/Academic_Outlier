@@ -128,7 +128,7 @@ const StudentDashboard = () => {
             >
                <img 
                  className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md group-hover:ring-[#00236f] transition-all" 
-                 src={(user?.profile?.avatar || "").replace('localhost:5000', 'localhost:3000') || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
+                 src={((user?.profile?.avatar || "").startsWith('http') ? user.profile.avatar : `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'https://academic-outlier.onrender.com'}${user?.profile?.avatar}`) || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
                  alt="Avatar" 
                />
             </div>

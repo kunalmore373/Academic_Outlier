@@ -35,7 +35,8 @@ const UserLogin = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+    const backendUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/api', '') : 'https://academic-outlier.onrender.com';
+    window.location.href = `${backendUrl}/api/auth/google`;
   };
 
   return (

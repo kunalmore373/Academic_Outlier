@@ -165,7 +165,7 @@ const Profile = () => {
                             <div className="relative inline-block mb-6">
                                 <img 
                                     className="w-32 h-32 rounded-full object-cover ring-4 ring-blue-50 shadow-xl" 
-                                    src={(user?.profile?.avatar || "").replace('localhost:5000', 'localhost:3000') || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
+                                    src={((user?.profile?.avatar || "").startsWith('http') ? user.profile.avatar : `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'https://academic-outlier.onrender.com'}${user?.profile?.avatar}`) || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
                                     alt="Avatar" 
                                 />
                                 <label className="absolute bottom-0 right-0 p-2 bg-[#00236f] text-white rounded-full shadow-lg border-4 border-white hover:scale-110 transition-transform cursor-pointer">
