@@ -7,11 +7,11 @@
   --bg-footer: #f8fafc;
   --icon-bg: #eef2ff;
   --border-light: #e5e7eb;
-  
+
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 20px 40px rgba(10, 20, 69, 0.06);
-  
+
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
 }
 

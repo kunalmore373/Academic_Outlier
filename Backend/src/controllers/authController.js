@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../utils/email');
 
 // Secure cookie options
 const cookieOptions = {
@@ -59,8 +60,41 @@ async function registerUser(req, res) {
 
         await newUser.save();
 
-        // In a real app, send OTP via email here
-        console.log(`OTP for ${email}: ${otp}`);
+        // Send OTP via email
+        try {
+            const message = `Your verification code is: ${otp}`;
+            const html = `
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #ffffff;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50; margin: 0;">Academic Outlier</h1>
+                        <p style="color: #7f8c8d; font-size: 16px;">Empowering Your Academic Journey</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); padding: 2px; border-radius: 12px; margin-bottom: 30px;">
+                        <div style="background: #ffffff; padding: 30px; border-radius: 10px; text-align: center;">
+                            <h2 style="color: #2c3e50; margin-top: 0;">Verify Your Email</h2>
+                            <p style="color: #34495e; font-size: 16px; line-height: 1.6;">Welcome to the community! Use the secure verification code below to complete your registration:</p>
+                            <div style="font-size: 36px; font-weight: 800; color: #2575fc; letter-spacing: 8px; margin: 30px 0; padding: 20px; background: #f8faff; border-radius: 8px; border: 1px dashed #2575fc;">
+                                ${otp}
+                            </div>
+                            <p style="color: #95a5a6; font-size: 14px;">This code is valid for <strong>10 minutes</strong>.</p>
+                        </div>
+                    </div>
+                    <p style="color: #7f8c8d; font-size: 12px; text-align: center;">
+                        If you didn't create an account, you can safely ignore this email.
+                    </p>
+                </div>
+            `;
+
+            await sendEmail({
+                email: newUser.email,
+                subject: 'Verify Your Academic Outlier Account',
+                message,
+                html
+            });
+        } catch (mailError) {
+            console.error('Failed to send verification email:', mailError);
+            // We still registered the user, but they'll need to request a new OTP if it failed
+        }
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
 
@@ -163,8 +197,40 @@ async function forgotPassword(req, res) {
         user.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
         await user.save();
 
-        console.log(`Reset OTP for ${email}: ${otp}`);
-        res.json({ message: 'OTP sent to email', otp }); // Returning OTP for dev
+        // Send Reset OTP via email
+        try {
+            const message = `Your password reset code is: ${otp}`;
+            const html = `
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #ffffff;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50; margin: 0;">Academic Outlier</h1>
+                        <p style="color: #e74c3c; font-size: 16px; font-weight: 600;">Password Reset Request</p>
+                    </div>
+                    <div style="background: #fdf2f2; border-left: 4px solid #e74c3c; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <p style="color: #34495e; font-size: 16px; line-height: 1.6; margin: 0;">You requested a password reset. Use the code below to set a new password:</p>
+                    </div>
+                    <div style="font-size: 36px; font-weight: 800; color: #e74c3c; text-align: center; letter-spacing: 8px; margin: 30px 0; padding: 20px; background: #fff5f5; border-radius: 8px; border: 1px dashed #e74c3c;">
+                        ${otp}
+                    </div>
+                    <p style="color: #95a5a6; font-size: 14px; text-align: center;">This code will expire in <strong>10 minutes</strong>.</p>
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                    <p style="color: #7f8c8d; font-size: 12px; text-align: center;">
+                        If you didn't request a password reset, please secure your account immediately.
+                    </p>
+                </div>
+            `;
+
+            await sendEmail({
+                email: user.email,
+                subject: 'Password Reset - Academic Outlier',
+                message,
+                html
+            });
+        } catch (mailError) {
+            console.error('Failed to send reset email:', mailError);
+        }
+
+        res.json({ message: 'OTP sent to email' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

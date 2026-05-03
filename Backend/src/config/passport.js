@@ -1,9 +1,6 @@
 const passport = require('passport');
 const User = require('../models/user.model');
 
-// Google OAuth temporarily disabled for local development
-// To enable: Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env file
-// Then uncomment the GoogleStrategy code below
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 

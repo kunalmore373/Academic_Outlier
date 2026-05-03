@@ -3,11 +3,12 @@ import './App.css'
 import React from 'react'
 import Router from './assets/routes/AppRoutes'
 
-
 function App() {
 
   return (
-    <Router />
+    <>
+      <Router />
+    </>
   )
 }
 

@@ -7,6 +7,7 @@ const StudentDashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
+  const [supportPanelOpen, setSupportPanelOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -99,8 +100,8 @@ const StudentDashboard = () => {
           {/* Quick Support Card */}
           <div className="mx-4 p-4 bg-slate-900 rounded-2xl mt-auto">
             <p className="text-white text-xs font-bold mb-2">Need Guidance?</p>
-            <p className="text-slate-400 text-[10px] leading-relaxed mb-4">Chat with our AI Copilot for personalized advice.</p>
-            <button className="w-full py-2 bg-white text-slate-900 text-[10px] font-black uppercase rounded-lg hover:bg-slate-100 transition-colors">Launch Assistant</button>
+            <p className="text-slate-400 text-[10px] leading-relaxed mb-4">Reach out to support or explore the dashboard for help resources.</p>
+            <button onClick={() => setSupportPanelOpen(true)} className="w-full py-2 bg-white text-slate-900 text-[10px] font-black uppercase rounded-lg hover:bg-slate-100 transition-colors">Contact Support</button>
           </div>
         </div>
       </nav>
@@ -296,6 +297,53 @@ const StudentDashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* Support Side Panel */}
+      {supportPanelOpen && (
+        <>
+          <div onClick={() => setSupportPanelOpen(false)} className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-40" />
+          <aside className="fixed left-0 top-0 h-full w-full max-w-md bg-white shadow-2xl border-r border-slate-200 z-50 overflow-y-auto">
+            <div className="flex items-start justify-between gap-4 p-6 border-b border-slate-200">
+              <div>
+                <p className="text-slate-500 text-xs uppercase tracking-widest mb-1">Support Center</p>
+                <h2 className="text-2xl font-black text-[#00236f]">Need help?</h2>
+              </div>
+              <button onClick={() => setSupportPanelOpen(false)} className="text-slate-400 hover:text-slate-700 transition-colors">
+                <span className="material-symbols-outlined text-3xl">close</span>
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              <p className="text-slate-600 leading-7">
+                If you need help using the Academic Outlier portal, our support team is ready to assist with account questions, application guidance, and general student resources.
+              </p>
+
+              <div className="rounded-3xl border border-slate-200 p-6 bg-slate-50">
+                <h3 className="text-xl font-semibold text-[#00236f] mb-3">Email Support</h3>
+                <p className="text-slate-600 mb-5">Send us a message and we will respond as soon as possible.</p>
+                <button
+                  onClick={() => window.location.href = 'mailto:kunalmoreclg@gmail.com?subject=Academic%20Outlier%20Support'}
+                  className="w-full py-3 bg-[#00236f] text-white rounded-2xl font-semibold hover:bg-[#0d3a74] transition"
+                >
+                  Email support
+                </button>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 p-6 bg-slate-50">
+                <h3 className="text-xl font-semibold text-[#00236f] mb-3">Help Resources</h3>
+                <p className="text-slate-600 mb-5">
+                  Explore your dashboard for university guidance, loan tools, and profile tips.
+                </p>
+                <button
+                  onClick={() => setSupportPanelOpen(false)}
+                  className="w-full py-3 bg-white text-slate-900 border border-slate-200 rounded-2xl font-semibold hover:bg-slate-100 transition"
+                >
+                  Return to dashboard
+                </button>
+              </div>
+            </div>
+          </aside>
+        </>
+      )}
 
       {/* Floating Copilot Button */}
       <button className="fixed bottom-10 right-10 w-16 h-16 rounded-2xl bg-[#00236f] text-white flex items-center justify-center shadow-2xl shadow-blue-900/40 hover:scale-105 active:scale-95 transition-all z-50">

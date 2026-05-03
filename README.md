@@ -25,6 +25,7 @@ A comprehensive MERN stack application designed to streamline the university dis
 - **MongoDB & Mongoose**: Flexible NoSQL database for student and university data.
 - **Passport.js**: Comprehensive authentication middleware for Google OAuth and local strategies.
 - **Multer**: Middleware for handling `multipart/form-data` for file uploads.
+- **Nodemailer**: Secure email delivery service for OTP verification.
 - **JWT**: Secure token-based authentication.
 
 ## 📦 Project Structure
@@ -69,6 +70,22 @@ A comprehensive MERN stack application designed to streamline the university dis
    npm install
    npm run dev
    ```
+
+## 📧 Email Service Setup (OTP)
+
+To enable OTP verification via email, you need to configure an SMTP service. If using Gmail:
+
+1.  Enable **2-Step Verification** on your Google Account.
+2.  Go to **App Passwords** in your Google Security settings.
+3.  Generate a new password for "Mail" and "Windows Computer".
+4.  Copy the 16-character code into your `.env` file as `EMAIL_PASS`.
+
+Update your `Backend/.env`:
+```env
+EMAIL_SERVICE=gmail
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-16-char-app-password
+```
 
 ## 🤝 Contributing
 This project was developed as part of a Hackathon. Contributions, issues, and feature requests are welcome!
