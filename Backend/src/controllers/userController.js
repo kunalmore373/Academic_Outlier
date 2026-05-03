@@ -83,7 +83,9 @@ const uploadAvatar = async (req, res) => {
         }
 
         // Construct public URL
-        const avatarUrl = `http://localhost:3000/uploads/${req.file.filename}`;
+        const protocol = req.protocol;
+        const host = req.get('host');
+        const avatarUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
         user.profile.avatar = avatarUrl;
         await user.save();
 
