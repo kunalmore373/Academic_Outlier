@@ -2,7 +2,11 @@
 
 A comprehensive MERN stack application designed to streamline the university discovery and student onboarding process. **Academic Outlier** provides a premium, interactive experience for students to explore global academic opportunities, manage their profiles, and navigate the journey from discovery to enrollment.
 
-## 🚀 Key Features
+## 🚀 Live Demo
+- **Frontend (Vercel):** [https://academic-outlier.vercel.app](https://academic-outlier.vercel.app)
+- **Backend (Render):** [https://academic-outlier.onrender.com](https://academic-outlier.onrender.com)
+
+## ✨ Key Features
 
 - **Personalized Student Profiles**: Custom dashboard with dynamic avatar uploads and profile management.
 - **Global University Discovery**: Search and filter through thousands of universities worldwide with real-time data integration.
@@ -42,7 +46,7 @@ A comprehensive MERN stack application designed to streamline the university dis
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/kunalmore373/Hackathon.git
+   git clone https://github.com/kunalmore373/Academic_Outlier.git
    cd Hackathon
    ```
 
@@ -58,37 +62,49 @@ A comprehensive MERN stack application designed to streamline the university dis
    JWT_SECRET=your_secret_key
    GOOGLE_CLIENT_ID=your_id
    GOOGLE_CLIENT_SECRET=your_secret
+   FRONTEND_URL=https://academic-outlier.vercel.app
    ```
    Start the server:
    ```bash
-   npx nodemon server
+   npm run dev
    ```
 
 3. **Frontend Setup**
    ```bash
    cd ../frontend/academic_outlier
    npm install
+   ```
+   Create a `.env` file in the `frontend/academic_outlier` directory:
+   ```env
+   VITE_API_BASE_URL=https://academic-outlier.onrender.com/api
+   ```
+   Start the client:
+   ```bash
    npm run dev
    ```
 
 ## 📧 Email Service Setup (OTP)
 
-To enable OTP verification via email, you need to configure an SMTP service. If using Gmail:
+To enable OTP verification via email, you need to configure an SMTP service (like Gmail):
 
 1.  Enable **2-Step Verification** on your Google Account.
 2.  Go to **App Passwords** in your Google Security settings.
-3.  Generate a new password for "Mail" and "Windows Computer".
-4.  Copy the 16-character code into your `.env` file as `EMAIL_PASS`.
+3.  Generate a new password for "Mail".
+4.  Add it to your `Backend/.env`:
+    ```env
+    EMAIL_SERVICE=gmail
+    EMAIL_USER=your-email@gmail.com
+    EMAIL_PASS=your-16-char-app-password
+    ```
 
-Update your `Backend/.env`:
-```env
-EMAIL_SERVICE=gmail
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-16-char-app-password
-```
+## 🔑 Google OAuth Setup
 
-## 🤝 Contributing
-This project was developed as part of a Hackathon. Contributions, issues, and feature requests are welcome!
+1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2.  Create a new project and configure the **OAuth consent screen**.
+3.  Create **OAuth 2.0 Client IDs**.
+4.  Add the following **Authorized redirect URIs**:
+    - `http://localhost:3000/api/auth/google/callback` (for local development)
+    - `https://academic-outlier.onrender.com/api/auth/google/callback` (for production)
 
 ---
 Developed with ❤️ by Kunal More
