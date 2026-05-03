@@ -36,7 +36,10 @@ router.get('/google/callback',
         // Check if user is already onboarded
         const isOnboarded = req.user.profile && req.user.profile.currentDegree && req.user.profile.currentDegree !== 'Other';
         
-        res.redirect(`${process.env.FRONTEND_URL}/auth-success?token=${token}&onboarded=${isOnboarded}`);
+        const frontendUrl = process.env.FRONTEND_URL || 'https://academic-outlier.vercel.app';
+        const redirectUrl = frontendUrl.startsWith('http') ? frontendUrl : `https://${frontendUrl}`;
+        
+        res.redirect(`${redirectUrl}/auth-success?token=${token}&onboarded=${isOnboarded}`);
     }
 );
 
