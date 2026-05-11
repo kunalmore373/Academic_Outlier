@@ -20,14 +20,23 @@ app.use(passport.initialize());
 const allowedOrigins = [
     'http://localhost:5173',
     process.env.FRONTEND_URL,
+    // Add protocol versions if missing
+    process.env.FRONTEND_URL && !process.env.FRONTEND_URL.startsWith('http') ? `https://${process.env.FRONTEND_URL}` : null,
+    process.env.FRONTEND_URL && !process.env.FRONTEND_URL.startsWith('http') ? `http://${process.env.FRONTEND_URL}` : null,
 ].filter(Boolean);
 
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        
+        // Check if origin matches exactly or without protocol
+        const isAllowed = allowedOrigins.some(allowed => {
+            return allowed === origin || origin.replace(/^https?:\/\//, '') === allowed.replace(/^https?:\/\//, '');
+        });
+
+        if (!isAllowed) {
+            const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
             return callback(new Error(msg), false);
         }
         return callback(null, true);
