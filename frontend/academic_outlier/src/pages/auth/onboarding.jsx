@@ -6,7 +6,7 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const [degree, setDegree] = useState('');
   const [budget, setBudget] = useState('');
-  const [greScore, setGreScore] = useState('');
+  const [gpa, setGpa] = useState('');
   const [selectedDestinations, setSelectedDestinations] = useState(['USA', 'Canada']);
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [customDestination, setCustomDestination] = useState('');
@@ -53,7 +53,7 @@ const Onboarding = () => {
           annualBudget: Number(budget),
           targetDestinations: selectedDestinations,
           academicStanding: {
-            // You can add more fields here if needed
+            gpa: Number(gpa)
           }
         }
       };
@@ -204,17 +204,19 @@ const Onboarding = () => {
                     />
                   </div>
                 </div>
-                {/* Test Scores */}
+                {/* GPA */}
                 <div className="flex flex-col gap-2">
-                  <label className="font-label text-sm uppercase tracking-[0.05em] text-on-surface-variant">GRE Score</label>
+                  <label className="font-label text-sm uppercase tracking-[0.05em] text-on-surface-variant">Academic GPA</label>
                   <div className="relative">
-                    <span className="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant z-10">score</span>
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant z-10">workspace_premium</span>
                     <input 
                       className="w-full bg-surface-container-low text-on-surface border border-outline-variant/20 rounded-lg py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-colors" 
-                      placeholder="Expected or Actual" 
+                      placeholder="e.g. 3.8 or 9.0" 
                       type="number" 
-                      value={greScore}
-                      onChange={(e) => setGreScore(e.target.value)}
+                      step="0.01"
+                      value={gpa}
+                      onChange={(e) => setGpa(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
