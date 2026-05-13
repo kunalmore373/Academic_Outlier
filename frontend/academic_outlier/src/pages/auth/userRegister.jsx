@@ -40,10 +40,9 @@ const UserRegister = () => {
   };
 
   return (
-    <div className="bg-background text-on-surface font-body min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container">
-      {/* Note: TopAppBar suppressed for transactional "Sign Up" intent */}
+    <div className="bg-background text-on-surface font-body min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
       <main className="flex-grow flex items-stretch">
-        <div className="flex w-full h-screen">
+        <div className="flex w-full min-h-[calc(100vh-6rem)]">
           {/* Left Panel (Branding / Value Prop) */}
           <div className="hidden lg:flex w-5/12 bg-primary text-on-primary p-16 flex-col justify-between relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #00236f 0%, #1e3a8a 100%)' }}>
             {/* Decorative Background Elements */}
@@ -62,8 +61,9 @@ const UserRegister = () => {
             </div>
           </div>
           {/* Right Panel (Form) */}
-          <div className="w-full lg:w-7/12 bg-surface-container-lowest flex items-center justify-center p-8 sm:p-12 lg:p-24 overflow-y-auto">
-            <div className="w-full max-w-md space-y-10">
+          <div className="w-full lg:w-7/12 bg-surface-container-lowest flex flex-col items-center py-12 px-8 sm:px-12 lg:px-24 overflow-y-auto">
+            <div className="w-full max-w-md space-y-10 my-auto">
+
               {/* Mobile Brand Identity (Visible only on small screens) */}
               <div className="lg:hidden text-2xl font-bold tracking-tighter text-primary text-center mb-8">
                 The Academic Atelier
