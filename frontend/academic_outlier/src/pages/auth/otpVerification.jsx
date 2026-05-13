@@ -50,6 +50,23 @@ const OtpVerification = () => {
     }
   };
 
+  const handleResend = async () => {
+    if (!email || email === 'your email') {
+      setError('Email not found. Please try registering again.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      await api.post('/auth/resend-otp', { email });
+      alert('A new verification code has been sent to your email.');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to resend code');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-background text-on-background min-h-screen flex antialiased">
       {/* Left Panel: Branded Deep Blue */}
@@ -127,7 +144,12 @@ const OtpVerification = () => {
                 )}
               </button>
               <div className="text-center">
-                <button className="text-on-surface-variant font-label text-sm hover:text-primary transition-colors uppercase tracking-widest font-semibold focus:outline-none" type="button">
+                <button 
+                  className="text-on-surface-variant font-label text-sm hover:text-primary transition-colors uppercase tracking-widest font-semibold focus:outline-none disabled:opacity-50" 
+                  type="button"
+                  onClick={handleResend}
+                  disabled={loading}
+                >
                   Resend Code
                 </button>
               </div>

@@ -52,6 +52,10 @@ router.post('/login' , authController.login);
 // Verify OTP
 router.post('/verify-otp', authMiddleware.authMiddleware, authController.verifyOTP);
 
+// Resend OTP
+router.post('/resend-otp', authController.resendOTP);
+
+
 // Forgot Password
 router.post('/forgot-password', authController.forgotPassword);
 

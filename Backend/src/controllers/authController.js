@@ -83,15 +83,22 @@ async function registerUser(req, res) {
             </div>
         `;
 
-        // Send OTP via email (Non-blocking to prevent UI hang)
-        sendEmail({
-            email: newUser.email,
-            subject: 'Verify Your Academic Outlier Account',
-            message,
-            html
-        }).catch(mailError => {
-            console.error('Background Email Error:', mailError);
-        });
+        console.log(`Attempting to send OTP email to: ${newUser.email}`);
+        try {
+            await sendEmail({
+                email: newUser.email,
+                subject: 'Verify Your Academic Outlier Account',
+                message,
+                html
+            });
+            console.log(`OTP successfully sent to ${newUser.email}`);
+        } catch (mailError) {
+            console.error(`CRITICAL: Email Error for ${newUser.email}:`, mailError);
+            // We don't want to fail the whole registration if email fails, 
+            // but we want to know about it.
+        }
+
+
 
 
 
@@ -256,10 +263,72 @@ async function resetPassword(req, res) {
     }
 }
 
+async function resendOTP(req, res) {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: 'User already verified' });
+        }
+
+        // Generate new OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.otp = otp;
+        user.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+        await user.save();
+
+        const message = `Your new verification code is: ${otp}`;
+        const html = `
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #ffffff;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #2c3e50; margin: 0;">Academic Outlier</h1>
+                </div>
+                <div style="background: #f8faff; padding: 30px; border-radius: 10px; text-align: center; border: 1px solid #e0e0e0;">
+                    <h2 style="color: #2c3e50; margin-top: 0;">New Verification Code</h2>
+                    <p style="color: #34495e; font-size: 16px;">Use the code below to verify your account:</p>
+                    <div style="font-size: 36px; font-weight: 800; color: #2575fc; letter-spacing: 8px; margin: 20px 0; padding: 20px; background: #ffffff; border-radius: 8px; border: 1px dashed #2575fc;">
+                        ${otp}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        console.log(`Resending OTP to: ${user.email}`);
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'New Verification Code - Academic Outlier',
+                message,
+                html
+            });
+            console.log(`Resent OTP successfully for ${user.email}`);
+        } catch (err) {
+            console.error(`CRITICAL: Resend Email Error for ${user.email}:`, err);
+        }
+
+        res.json({ message: 'OTP resent successfully', otp }); // otp included for testing
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
 module.exports = {
     register: registerUser,
     login: login,
     verifyOTP: verifyOTP,
+    resendOTP,
     forgotPassword,
     resetPassword
 };
+

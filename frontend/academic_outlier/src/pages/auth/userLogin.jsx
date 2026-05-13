@@ -42,7 +42,7 @@ const UserLogin = () => {
   return (
     <div className="bg-background text-on-surface min-h-screen w-full flex flex-col lg:flex-row overflow-x-hidden antialiased">
       {/* Left Panel: Deep Trust Blue Graphic Area */}
-      <div className="hidden lg:flex flex-col justify-between lg:w-1/2 bg-primary relative overflow-hidden p-16 min-h-screen">
+      <div className="hidden lg:flex flex-col justify-between lg:w-1/2 bg-primary relative overflow-hidden pt-32 pb-16 px-16 min-h-screen">
         {/* Abstract Decoration / Graphic Area */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-primary-container to-primary rounded-full blur-[120px] opacity-60 transform translate-x-1/3 -translate-y-1/3"></div>
@@ -72,8 +72,10 @@ const UserLogin = () => {
         </div>
       </div>
       {/* Right Panel: Login Container */}
-      <div className="w-full lg:w-1/2 min-h-[calc(100vh-6rem)] flex flex-col items-center bg-surface-container-low p-8 relative overflow-y-auto">
+      <div className="w-full lg:w-1/2 min-h-screen flex flex-col items-center bg-surface-container-low pt-32 pb-8 px-8 relative overflow-y-auto">
+
         <div className="my-auto w-full flex flex-col items-center">
+
 
         {/* Main Login Card (Surface Lowest for pop) */}
         <div className="w-full max-w-md bg-surface-container-lowest p-10 rounded-xl shadow-[0_20px_40px_rgba(0,35,111,0.03)] flex flex-col gap-8 relative z-10">

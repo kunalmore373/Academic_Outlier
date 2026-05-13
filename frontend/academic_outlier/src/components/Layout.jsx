@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
                     </div>
                 </div>
             </nav>
-            <main className="flex-grow pt-24">
+            <main className={`flex-grow ${!isAuthPage ? 'pt-24' : ''}`}>
                 {children}
             </main>
         </div>

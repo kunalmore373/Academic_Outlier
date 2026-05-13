@@ -42,9 +42,11 @@ const UserRegister = () => {
   return (
     <div className="bg-background text-on-surface font-body min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
       <main className="flex-grow flex items-stretch">
-        <div className="flex w-full min-h-[calc(100vh-6rem)]">
+        <div className="flex w-full min-h-screen">
+
           {/* Left Panel (Branding / Value Prop) */}
-          <div className="hidden lg:flex w-5/12 bg-primary text-on-primary p-16 flex-col justify-between relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #00236f 0%, #1e3a8a 100%)' }}>
+          <div className="hidden lg:flex w-5/12 bg-primary text-on-primary pt-32 pb-16 px-16 flex-col justify-between relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #00236f 0%, #1e3a8a 100%)' }}>
+
             {/* Decorative Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, transparent 50%)' }}></div>
             <div className="z-10">
@@ -61,7 +63,8 @@ const UserRegister = () => {
             </div>
           </div>
           {/* Right Panel (Form) */}
-          <div className="w-full lg:w-7/12 bg-surface-container-lowest flex flex-col items-center py-12 px-8 sm:px-12 lg:px-24 overflow-y-auto">
+          <div className="w-full lg:w-7/12 bg-surface-container-lowest flex flex-col items-center pt-32 pb-12 px-8 sm:px-12 lg:px-24 overflow-y-auto">
+
             <div className="w-full max-w-md space-y-10 my-auto">
 
               {/* Mobile Brand Identity (Visible only on small screens) */}
