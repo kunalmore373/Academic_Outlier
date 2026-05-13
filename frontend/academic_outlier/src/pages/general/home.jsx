@@ -1,27 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ThemeToggle from '../../components/ThemeToggle';
 
 const Home = () => {
     return (
-        <div className="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
-            {/* TopNavBar */}
-            <nav className="fixed top-0 w-full z-50 bg-[#f7f9fb]/90 dark:bg-slate-950/90 backdrop-blur-md border-b-0 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
-                <div className="flex justify-between items-center w-full px-8 py-5 max-w-screen-2xl mx-auto">
-                    <div className="text-2xl font-bold tracking-tighter text-[#00236f] dark:text-blue-200">
-                        Academic Atelier
-                    </div>
-                    <div className="hidden md:flex space-x-8 items-center font-['Inter'] tracking-tight text-sm font-medium">
-                        <a className="text-[#444651] dark:text-slate-400 pb-1 hover:text-[#1e3a8a] dark:hover:text-blue-200 transition-all duration-300" href="#">Features</a>
-                        <a className="text-[#444651] dark:text-slate-400 pb-1 hover:text-[#1e3a8a] dark:hover:text-blue-200 transition-all duration-300" href="#">About</a>
-                        <a className="text-[#444651] dark:text-slate-400 pb-1 hover:text-[#1e3a8a] dark:hover:text-blue-200 transition-all duration-300" href="#">Pricing</a>
-                    </div>
-                    <div className="flex space-x-4 items-center">
-                        <Link className="font-['Inter'] text-sm font-medium text-[#444651] hover:text-[#1e3a8a] transition-colors active:scale-95" to="/user/login">Login</Link>
-                        <Link className="bg-gradient-primary text-on-primary px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm hover-bg-gradient-primary transition-all active:scale-95" to="/user/register">Get Started</Link>
-                    </div>
-                </div>
-            </nav>
-            <main className="flex-grow pt-24 pb-16">
+        <>
+            <main className="flex-grow pb-16">
                 {/* Hero Section */}
                 <section className="max-w-screen-2xl mx-auto px-8 pt-16 pb-24 md:pt-24 md:pb-32 flex flex-col md:flex-row items-center gap-16">
                     <div className="w-full md:w-5/12 flex flex-col items-start text-left space-y-8 pl-0 md:pl-8">
@@ -109,7 +93,7 @@ const Home = () => {
             <button aria-label="AI Copilot" className="fixed bottom-10 right-10 w-16 h-16 rounded-full glass-copilot text-on-primary flex items-center justify-center z-50 hover:scale-105 active:scale-95 transition-all duration-300">
                 <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             </button>
-        </div>
+        </>
     );
 };
 

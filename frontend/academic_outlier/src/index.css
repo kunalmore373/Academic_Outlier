@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -13,6 +17,26 @@
   --shadow-lg: 0 20px 40px rgba(10, 20, 69, 0.06);
 
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  --transition-speed: 0.3s;
+}
+
+.dark {
+  --primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --bg-color: #020617;
+  --bg-footer: #0f172a;
+  --icon-bg: #1e293b;
+  --border-light: #1e293b;
+  
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+  transition: background-color var(--transition-speed) ease;
 }
 
 * {
