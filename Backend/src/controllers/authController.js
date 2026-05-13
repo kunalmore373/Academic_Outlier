@@ -60,41 +60,40 @@ async function registerUser(req, res) {
 
         await newUser.save();
 
-        // Send OTP via email
-        try {
-            const message = `Your verification code is: ${otp}`;
-            const html = `
-                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #ffffff;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <h1 style="color: #2c3e50; margin: 0;">Academic Outlier</h1>
-                        <p style="color: #7f8c8d; font-size: 16px;">Empowering Your Academic Journey</p>
-                    </div>
-                    <div style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); padding: 2px; border-radius: 12px; margin-bottom: 30px;">
-                        <div style="background: #ffffff; padding: 30px; border-radius: 10px; text-align: center;">
-                            <h2 style="color: #2c3e50; margin-top: 0;">Verify Your Email</h2>
-                            <p style="color: #34495e; font-size: 16px; line-height: 1.6;">Welcome to the community! Use the secure verification code below to complete your registration:</p>
-                            <div style="font-size: 36px; font-weight: 800; color: #2575fc; letter-spacing: 8px; margin: 30px 0; padding: 20px; background: #f8faff; border-radius: 8px; border: 1px dashed #2575fc;">
-                                ${otp}
-                            </div>
-                            <p style="color: #95a5a6; font-size: 14px;">This code is valid for <strong>10 minutes</strong>.</p>
-                        </div>
-                    </div>
-                    <p style="color: #7f8c8d; font-size: 12px; text-align: center;">
-                        If you didn't create an account, you can safely ignore this email.
-                    </p>
+        const message = `Your verification code is: ${otp}`;
+        const html = `
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 40px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #ffffff;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #2c3e50; margin: 0;">Academic Outlier</h1>
+                    <p style="color: #7f8c8d; font-size: 16px;">Empowering Your Academic Journey</p>
                 </div>
-            `;
+                <div style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); padding: 2px; border-radius: 12px; margin-bottom: 30px;">
+                    <div style="background: #ffffff; padding: 30px; border-radius: 10px; text-align: center;">
+                        <h2 style="color: #2c3e50; margin-top: 0;">Verify Your Email</h2>
+                        <p style="color: #34495e; font-size: 16px; line-height: 1.6;">Welcome to the community! Use the secure verification code below to complete your registration:</p>
+                        <div style="font-size: 36px; font-weight: 800; color: #2575fc; letter-spacing: 8px; margin: 30px 0; padding: 20px; background: #f8faff; border-radius: 8px; border: 1px dashed #2575fc;">
+                            ${otp}
+                        </div>
+                        <p style="color: #95a5a6; font-size: 14px;">This code is valid for <strong>10 minutes</strong>.</p>
+                    </div>
+                </div>
+                <p style="color: #7f8c8d; font-size: 12px; text-align: center;">
+                    If you didn't create an account, you can safely ignore this email.
+                </p>
+            </div>
+        `;
 
-            await sendEmail({
-                email: newUser.email,
-                subject: 'Verify Your Academic Outlier Account',
-                message,
-                html
-            });
-        } catch (mailError) {
-            console.error('Failed to send verification email:', mailError);
-            // We still registered the user, but they'll need to request a new OTP if it failed
-        }
+        // Send OTP via email (Non-blocking to prevent UI hang)
+        sendEmail({
+            email: newUser.email,
+            subject: 'Verify Your Academic Outlier Account',
+            message,
+            html
+        }).catch(mailError => {
+            console.error('Background Email Error:', mailError);
+        });
+
+
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
 

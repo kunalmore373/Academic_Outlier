@@ -18,14 +18,17 @@ const UserRegister = () => {
   };
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log('Submitting registration with:', formData);
     setLoading(true);
     setError('');
     try {
+      console.log('Calling API...');
       const response = await api.post('/auth/register', formData);
-      console.log('Success:', response.data);
+      console.log('API Response:', response.data);
       navigate('/user/otp', { state: { email: formData.email } });
     } catch (err) {
-      setError(err.response?.data?.message || err.message);
+      console.error('Registration Error:', err);
+      setError(err.response?.data?.message || err.message || 'Registration failed. Please check your connection.');
     } finally {
       setLoading(false);
     }
@@ -105,7 +108,15 @@ const UserRegister = () => {
                     <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-on-surface-variant">
                       <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>person</span>
                     </span>
-                    <input className="w-full bg-surface-container-low border border-transparent focus:border-outline-variant/20 focus:bg-surface-container-lowest text-on-surface text-base rounded-lg pl-11 pr-4 py-3.5 outline-none transition-all duration-200 placeholder:text-on-surface-variant/50" id="fullName" onChange={handleChange} placeholder="Jane Doe" type="text" />
+                    <input 
+                      className="w-full bg-surface-container-low border border-transparent focus:border-outline-variant/20 focus:bg-surface-container-lowest text-on-surface text-base rounded-lg pl-11 pr-4 py-3.5 outline-none transition-all duration-200 placeholder:text-on-surface-variant/50" 
+                      id="fullName" 
+                      value={formData.fullName}
+                      onChange={handleChange} 
+                      placeholder="Jane Doe" 
+                      type="text" 
+                      required
+                    />
                   </div>
                 </div>
                 {/* Email Input */}
@@ -115,7 +126,15 @@ const UserRegister = () => {
                     <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-on-surface-variant">
                       <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>mail</span>
                     </span>
-                    <input className="w-full bg-surface-container-low border border-transparent focus:border-outline-variant/20 focus:bg-surface-container-lowest text-on-surface text-base rounded-lg pl-11 pr-4 py-3.5 outline-none transition-all duration-200 placeholder:text-on-surface-variant/50" id="email" onChange={handleChange} placeholder="jane@university.edu" type="email" />
+                    <input 
+                      className="w-full bg-surface-container-low border border-transparent focus:border-outline-variant/20 focus:bg-surface-container-lowest text-on-surface text-base rounded-lg pl-11 pr-4 py-3.5 outline-none transition-all duration-200 placeholder:text-on-surface-variant/50" 
+                      id="email" 
+                      value={formData.email}
+                      onChange={handleChange} 
+                      placeholder="jane@university.edu" 
+                      type="email" 
+                      required
+                    />
                   </div>
                 </div>
                 {/* Password Input */}
@@ -128,9 +147,11 @@ const UserRegister = () => {
                     <input 
                       className="w-full bg-surface-container-low border border-transparent focus:border-outline-variant/20 focus:bg-surface-container-lowest text-on-surface text-base rounded-lg pl-11 pr-12 py-3.5 outline-none transition-all duration-200 placeholder:text-on-surface-variant/50" 
                       id="password" 
+                      value={formData.password}
                       onChange={handleChange} 
                       placeholder="••••••••" 
                       type={showPassword ? "text" : "password"} 
+                      required
                     />
                     <button 
                       className="absolute inset-y-0 right-0 flex items-center pr-4 text-on-surface-variant hover:text-primary transition-colors" 
